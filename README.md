@@ -1,0 +1,2 @@
+# cta
+Coin Trading Assistant
