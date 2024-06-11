@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "gate",
+  "name": "helper",
   "version": "1.0",
-  "description": "gate extension",
+  "description": "coin trading helper extension",
   "permissions": ["storage", "declarativeContent", "activeTab", "scripting"],
   "action": {
     "default_popup": "./popup/popup.html",
@@ -10,8 +10,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.gate.io/*"],
       "js": ["scripts/gate.js"],
+      "matches": ["https://www.gate.io/*"],
       "run_at": "document_end"
     }
   ]
