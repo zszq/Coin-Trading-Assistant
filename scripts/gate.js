@@ -1,9 +1,18 @@
+window.addEventListener("load", () => {
+  init();
+});
+
 function init() {
-  const holding = [
-    ...document.querySelector(".tr-table__wrapper table tbody").children,
-  ];
-  console.log("------", holding);
-  // TODO 监听dom变化重新初始化
+  const holder = document.querySelector(".tr-table__wrapper table tbody");
+  mutationObserver(holder, () => {
+    console.log("数据返回");
+    addAssistantBtn();
+  });
+}
+
+function addAssistantBtn() {
+  const holder = document.querySelector(".tr-table__wrapper table tbody");
+  const holding = [...holder.children];
   const calcBtnHTML =
     '<button class="mr4 mantine-UnstyledButton-root mantine-GateButton-root mantine-Button-root gui-font-face mantine-cypa7k" type="button" data-button="true" label="计算" dir="ltr" style="--gui-button-loading-text-opacity-color: inherit; --gui-button-loading-flex: block; --gui-button-loading-text-opacity: 1; --gui-button-pointer-event: auto;"><div class="mantine-GateButton-inner mantine-Button-inner mantine-1kvfxz6"><span class="mantine-GateButton-label mantine-Button-label mantine-1b9cy0h">计算</span></div></button>';
 
@@ -34,7 +43,7 @@ function handleClick(tr, index) {
     )[0];
   const averagePrice = holding[index].children[2].children[0].textContent;
 
-  console.log("123456---", coinName, quantity, averagePrice);
+  console.log("持仓数据---", coinName, quantity, averagePrice);
 
   const newAveragePrice = calculateNewAveragePrice(
     toNumber(averagePrice),
@@ -42,7 +51,7 @@ function handleClick(tr, index) {
     0.018,
     20000
   );
-  console.log("newAveragePrice===", newAveragePrice);
+  console.log("新持仓均价===", newAveragePrice);
 }
 
 function createElementFromHTML(htmlString) {
@@ -53,6 +62,18 @@ function createElementFromHTML(htmlString) {
 
 function toNumber(numberString) {
   return Number(numberString.replace(/,/g, ""));
+}
+
+function mutationObserver(targetNode, callback) {
+  const observer = new MutationObserver((mutationsList, observer) => {
+    console.log("mutationList", mutationsList, observer);
+    // for (const mutation of mutationsList) {
+    //   if (mutation.type === "childList") {
+    callback && callback();
+    //   }
+    // }
+  });
+  observer.observe(targetNode, { childList: true });
 }
 
 /**
@@ -69,22 +90,9 @@ function calculateNewAveragePrice(
   purchasePrice,
   purchaseQuantity
 ) {
-  // console.log(
-  //   "calculateNewAveragePrice",
-  //   currentAveragePrice,
-  //   currentHoldings,
-  //   purchasePrice,
-  //   purchaseQuantity
-  // );
   const newTotalHoldings = currentHoldings + purchaseQuantity;
   const newTotalCost =
     currentHoldings * currentAveragePrice + purchasePrice * purchaseQuantity;
   const newAveragePrice = newTotalCost / newTotalHoldings;
   return newAveragePrice;
 }
-
-window.addEventListener("load", () => {
-  // setTimeout(() => {
-  init();
-  // }, 1000);
-});
