@@ -10,8 +10,8 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
       "matches": ["https://www.gate.io/*"],
+      "js": ["scripts/gate.js"],
       "run_at": "document_end"
     }
   ]
