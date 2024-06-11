@@ -3,18 +3,24 @@ window.addEventListener("load", () => {
 });
 
 function init() {
+  console.log("------ helper init ------");
   const holder = document.querySelector(".tr-table__wrapper table tbody");
-  mutationObserver(holder, () => {
-    console.log("数据返回");
+  const holding = [...holder.children];
+  if (holding.length > 0) {
     addAssistantBtn();
-  });
+  } else {
+    mutationObserver(holder, () => {
+      console.log("持仓变化");
+      addAssistantBtn();
+    });
+  }
 }
 
 function addAssistantBtn() {
   const holder = document.querySelector(".tr-table__wrapper table tbody");
   const holding = [...holder.children];
   const calcBtnHTML =
-    '<button class="mr4 mantine-UnstyledButton-root mantine-GateButton-root mantine-Button-root gui-font-face mantine-cypa7k" type="button" data-button="true" label="计算" dir="ltr" style="--gui-button-loading-text-opacity-color: inherit; --gui-button-loading-flex: block; --gui-button-loading-text-opacity: 1; --gui-button-pointer-event: auto;"><div class="mantine-GateButton-inner mantine-Button-inner mantine-1kvfxz6"><span class="mantine-GateButton-label mantine-Button-label mantine-1b9cy0h">计算</span></div></button>';
+    '<button class="mr4 mantine-UnstyledButton-root mantine-GateButton-root mantine-Button-root gui-font-face mantine-cypa7k" type="button" data-button="true" label="helper" dir="ltr" style="--gui-button-loading-text-opacity-color: inherit; --gui-button-loading-flex: block; --gui-button-loading-text-opacity: 1; --gui-button-pointer-event: auto;"><div class="mantine-GateButton-inner mantine-Button-inner mantine-1kvfxz6"><span class="mantine-GateButton-label mantine-Button-label mantine-1b9cy0h">helper</span></div></button>';
 
   holding.forEach((tr, index) => {
     console.log("===", tr);
