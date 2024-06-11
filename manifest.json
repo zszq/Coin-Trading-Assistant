@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "helper",
+  "name": "trading helper",
   "version": "1.0",
   "description": "coin trading helper extension",
   "permissions": ["storage", "declarativeContent", "activeTab", "scripting"],
