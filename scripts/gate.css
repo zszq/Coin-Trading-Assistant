@@ -1,0 +1,13 @@
+#helper-popover {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+}
+
+#helper-popover:popover-open {
+  
+}
+
+#helper-popover::backdrop {
+  backdrop-filter: blur(3px);
+}

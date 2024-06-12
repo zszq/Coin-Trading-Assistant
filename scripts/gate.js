@@ -2,28 +2,57 @@ window.addEventListener("load", () => {
   init();
 });
 
+let helperPopoverInstance = nulll;
 function init() {
   console.log("------ helper init ------");
-  const holder = document.querySelector(".tr-table__wrapper table tbody");
+  const holder = document.querySelector(
+    "#trade-panel .table-scroll-window .tr-table__wrapper table tbody"
+  );
   const holding = [...holder.children];
   if (holding.length > 0) {
-    addAssistantBtn();
+    addHelperBtn();
   } else {
     mutationObserver(holder, () => {
       console.log("持仓变化");
-      addAssistantBtn();
+      setTimeout(() => {
+        addHelperBtn();
+      }, 800);
     });
   }
+
+  handleToggleTabs();
+
+  helperPopoverInstance = helperPopover();
 }
 
-function addAssistantBtn() {
-  const holder = document.querySelector(".tr-table__wrapper table tbody");
+function handleToggleTabs() {
+  const tabs = document.querySelectorAll(
+    "#trade-panel .future_order_trade_tabs .mantine-GateTabs-tabsList.mantine-Tabs-tabsList button"
+  );
+  console.log("tabs", tabs);
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      console.log("tabs change", e.target.textContent, e.target.innerText);
+      const text = e.target.textContent;
+      // if (text.includes("仓位")) {
+      setTimeout(() => {
+        addHelperBtn();
+      });
+      // }
+    });
+  });
+}
+
+function addHelperBtn() {
+  const holder = document.querySelector(
+    "#trade-panel .table-scroll-window .tr-table__wrapper table tbody"
+  );
   const holding = [...holder.children];
   const calcBtnHTML =
-    '<button class="mr4 mantine-UnstyledButton-root mantine-GateButton-root mantine-Button-root gui-font-face mantine-cypa7k" type="button" data-button="true" label="helper" dir="ltr" style="--gui-button-loading-text-opacity-color: inherit; --gui-button-loading-flex: block; --gui-button-loading-text-opacity: 1; --gui-button-pointer-event: auto;"><div class="mantine-GateButton-inner mantine-Button-inner mantine-1kvfxz6"><span class="mantine-GateButton-label mantine-Button-label mantine-1b9cy0h">helper</span></div></button>';
+    '<button popovertarget="helper-popover" class="mr4 mantine-UnstyledButton-root mantine-GateButton-root mantine-Button-root gui-font-face mantine-cypa7k" type="button" data-button="true" label="helper" dir="ltr" style="--gui-button-loading-text-opacity-color: inherit; --gui-button-loading-flex: block; --gui-button-loading-text-opacity: 1; --gui-button-pointer-event: auto;"><div class="mantine-GateButton-inner mantine-Button-inner mantine-1kvfxz6"><span class="mantine-GateButton-label mantine-Button-label mantine-1b9cy0h">helper</span></div></button>';
 
   holding.forEach((tr, index) => {
-    console.log("===", tr);
+    // console.log("===", tr);
     const d = createElementFromHTML(calcBtnHTML);
     d.addEventListener("click", () => {
       handleClick(tr, index);
@@ -58,6 +87,30 @@ function handleClick(tr, index) {
     20000
   );
   console.log("新持仓均价===", newAveragePrice);
+
+  helperPopoverInstance && helperPopoverInstance.showPopover();
+
+  getPositions();
+}
+
+function helperPopover() {
+  const popover = createElementFromHTML(
+    `<div id='helper-popover' popover>helperPopover</div>`
+  );
+  document.body.append(popover);
+
+  return popover;
+}
+
+// 获取持仓
+function getPositions() {
+  fetch("https://www.gate.io/futures/usdt/positions")
+    .then(async (response) => {
+      const data = await response.json();
+      const positions = data.filter((item) => !!item.future_auto_order);
+      console.log("positions", positions);
+    })
+    .catch((error) => {});
 }
 
 function createElementFromHTML(htmlString) {
