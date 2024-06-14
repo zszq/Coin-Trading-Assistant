@@ -12,7 +12,7 @@ function init() {
   if (holding.length > 0) {
     addHelperBtn();
   } else {
-    mutationObserver(holder, () => {
+    mutationObserver(holder, { childList: true }, () => {
       console.log("持仓变化");
       setTimeout(() => {
         addHelperBtn();
@@ -123,7 +123,7 @@ function toNumber(numberString) {
   return Number(numberString.replace(/,/g, ""));
 }
 
-function mutationObserver(targetNode, callback) {
+function mutationObserver(targetNode, options, callback) {
   const observer = new MutationObserver((mutationsList, observer) => {
     console.log("mutationList", mutationsList, observer);
     // for (const mutation of mutationsList) {
@@ -132,7 +132,7 @@ function mutationObserver(targetNode, callback) {
     //   }
     // }
   });
-  observer.observe(targetNode, { childList: true });
+  observer.observe(targetNode, options);
 }
 
 /**
