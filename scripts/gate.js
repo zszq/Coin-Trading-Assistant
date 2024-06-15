@@ -2,7 +2,6 @@ window.addEventListener("load", () => {
   init();
 });
 
-let helperPopoverInstance = nulll;
 function init() {
   console.log("------ helper init ------");
   const holder = document.querySelector(
@@ -21,8 +20,7 @@ function init() {
   }
 
   handleToggleTabs();
-
-  helperPopoverInstance = helperPopover();
+  helperPopover();
 }
 
 function handleToggleTabs() {
@@ -88,18 +86,37 @@ function handleClick(tr, index) {
   );
   console.log("新持仓均价===", newAveragePrice);
 
-  helperPopoverInstance && helperPopoverInstance.showPopover();
+  showPopover();
 
   getPositions();
 }
 
 function helperPopover() {
-  const popover = createElementFromHTML(
-    `<div id='helper-popover' popover>helperPopover</div>`
-  );
+  const popover = createElementFromHTML(`
+    <div id='helper-popover'>
+      <div class="helper-mask"></div>
+      <div class="helper-content">
+        <div class="title">helper</div>
+      </div>
+    </div>
+  `);
+
+  const mask = popover.querySelector(".helper-mask");
+  mask.addEventListener("click", () => {
+    hidePopover();
+  });
+
   document.body.append(popover);
 
   return popover;
+}
+function showPopover() {
+  document.querySelector("#helper-popover").style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+function hidePopover() {
+  document.querySelector("#helper-popover").style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
 // 获取持仓

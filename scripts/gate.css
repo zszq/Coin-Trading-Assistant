@@ -1,13 +1,25 @@
 #helper-popover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  display: none;
+}
+#helper-popover .helper-mask {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+#helper-popover .helper-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 500px;
-  height: 500px;
-  margin: auto;
-}
-
-#helper-popover:popover-open {
-  
-}
-
-#helper-popover::backdrop {
-  backdrop-filter: blur(3px);
+  min-height: 300px;
+  background-color: #fff;
+  color: red;
 }
