@@ -7,6 +7,7 @@ function init() {
   const holder = document.querySelector(
     "#trade-panel .table-scroll-window .tr-table__wrapper table tbody"
   );
+  console.log("holder---", holder);
   const holding = [...holder.children];
   if (holding.length > 0) {
     addHelperBtn();
@@ -112,11 +113,9 @@ function helperPopover() {
 }
 function showPopover() {
   document.querySelector("#helper-popover").style.display = "block";
-  document.body.style.overflow = "hidden";
 }
 function hidePopover() {
   document.querySelector("#helper-popover").style.display = "none";
-  document.body.style.overflow = "auto";
 }
 
 // 获取持仓

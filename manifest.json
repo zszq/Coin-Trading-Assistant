@@ -5,7 +5,8 @@
   "description": "coin trading helper extension",
   "permissions": ["storage", "declarativeContent", "activeTab", "scripting"],
   "background": {
-    "service_worker": "./background.js"
+    "service_worker": "./background.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "./popup/popup.html",
@@ -18,5 +19,6 @@
       "matches": ["https://www.gate.io/*"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "devtools_page": "devtools/index.html"
 }
